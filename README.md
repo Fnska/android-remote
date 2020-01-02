@@ -14,5 +14,7 @@ Adapted solution for MPC-HC web interface. For those people who want to manage a
 2. Add **index.html** to `path/to/MPC-HC/webroot/`
 3. Download **.exe** file of [Ngrok](https://ngrok.com/) or use CLI
 4. Set the launch parameters: http -auth="\<login\>:\<password\>" 13579
+5. Turn on listening port 13579 in MPC-HC
+6. Use Android application or just visit site that created by ngrok
 
 
