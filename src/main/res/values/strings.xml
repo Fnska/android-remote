@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Remote</string>
+    <string name="buttonRemote">Remote</string>
+    <string name="buttonSettings">Settings</string>
+    <string name="buttonLogin">Login</string>
+    <string name="codeText">Code</string>
+    <string name="loginText">Login</string>
+    <string name="passwordText">Password</string>
+</resources>

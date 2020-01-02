@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>MPC Tilt Ctrl</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#333">
+  <link rel="shortcut icon" href="mpc.png">
+  <link rel="apple-touch-icon" href="mpc.png">
+  <link rel="icon" href="mpc.png">
+  <!-- production-версия, оптимизированная для размера и скорости -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <style>
+html {
+    height: 100%;
+  }
+
+  body {
+    background-color: black;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    color: #555;
+    height: 50%;
+  }
+
+  td {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    font-size: 140px;
+    font-family: arial;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 10px;
+  }
+
+  td:active{
+    background: #333;
+    color: black;
+  }
+
+  td div {
+    margin-top: -20px;
+  }
+
+  table  {
+    border-spacing: 24px;
+    width: 100%;
+    height: 30%;
+  }
+  </style>
+</head>
+<body>
+  <table id="app">
+    <tr>
+      <td @click="clickEvent" name="playlistB">
+        <div>&le;</div>
+      </td>
+      <td @click="clickEvent" name="soundUp">
+        <div>&uarr;</div>
+      </td>
+      <td @click="clickEvent" name="playlistF">
+        <div>&ge;</div>
+      </td>
+    </tr>
+    <tr>
+      <td @click="clickEvent" name="slowBackward">
+        <div>&lsaquo;</div>
+      </td>
+      <td @click="clickEvent" id='switchPlay' name="playPause">
+        <div>{{ message }}</div>
+      </td>
+      <td @click="clickEvent" name="slowForward">
+        <div>&rsaquo;</div>
+      </td>
+    </tr>
+    <tr>
+      <td @click="clickEvent" name="fastBackward">
+        <div>&laquo;</div>
+      </td>
+      <td @click="clickEvent" name="soundDown">
+        <div>&darr;</div>
+      </td>
+      <td @click="clickEvent" name="fastForward">
+        <div>&raquo;</div>
+      </td>
+    </tr>
+    <!-- <tr>                    // босс кнопка
+      <td name="bossKey">
+        <div>&iexcl;</div>
+      </td>
+    </tr> -->
+  </table>
+
+<script>
+var commands = {
+  'playPause'   : 889, // used
+  'slowBackward': 901,
+  'fastBackward': 903,
+  'slowForward' : 902,
+  'fastForward' : 904,
+  'bossKey'     : 944, // not used
+  'playlistB'   : 919,
+  'playlistF'   : 920,
+  'soundUp'     : 907,
+  'soundDown'   : 908,
+};
+
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: '>'
+  },
+  methods: {
+    clickEvent: function click (event) {
+      if(event.target.tagName.toLowerCase() == 'div') {
+        var target = event.target.parentNode;
+      }
+      var name = target.getAttribute('name');
+      if (name == 'playPause' && app.message == '>') {
+        app.message = 'II';
+      } else if (name == 'playPause' && app.message == 'II') {
+        app.message = '>';
+      }
+      execute(commands[name]);
+
+      function execute(id) {
+        var req = new XMLHttpRequest();
+        req.open('POST', '/command.html', true);
+        req.send('wm_command='+ id);
+      }
+    }
+  },
+
+})
+
+</script>
+</body>
+</html>
+
